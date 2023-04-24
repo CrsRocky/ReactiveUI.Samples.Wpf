@@ -10,6 +10,9 @@ using System.Text;
 namespace ReactiveUI.Samples.Wpf.Extensions
 {
     //https://github.com/pmetz-steelcase/Serilog.Enrichers.WithCaller
+    /// <summary>
+    /// 日志获取调用方法信息
+    /// </summary>
     internal class CallerEnricher : ILogEventEnricher
     {
         private readonly bool _includeReturnParameter;

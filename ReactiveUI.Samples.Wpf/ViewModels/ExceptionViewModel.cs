@@ -1,5 +1,5 @@
-﻿using ReactiveUI.Samples.Wpf.Common;
-using ReactiveUI.Samples.Wpf.Interactions;
+﻿using ReactiveUI.Samples.Wpf.Interactions;
+using ReactiveUI.Samples.Wpf.Services;
 using Splat;
 using System;
 using System.Reactive;
@@ -17,7 +17,7 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
         private readonly MessageInteractions messageInteractions;
         private string dialogResult;
 
-        public string UrlPathSegment => RoutedPageNames.ExceptionViewName;
+        public string UrlPathSegment => RoutableViewModelServices.ExceptionViewName;
 
         public IScreen HostScreen { get; }
 

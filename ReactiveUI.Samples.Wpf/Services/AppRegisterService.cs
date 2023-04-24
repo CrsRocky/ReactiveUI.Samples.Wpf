@@ -27,6 +27,9 @@ namespace ReactiveUI.Samples.Wpf.Services
         public static void AddServices()
         {
             Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetCallingAssembly());
+            Locator.CurrentMutable.Register(() => new RoutableViewModelServices());
+
+
             var app = RxApp.SuspensionHost.GetAppState<AppState>();
             if (app == null)
             {
@@ -38,7 +41,7 @@ namespace ReactiveUI.Samples.Wpf.Services
             Locator.CurrentMutable.RegisterConstant(app.NavigateViewModel);
             Locator.CurrentMutable.RegisterConstant(app.DataContractViewModel);
             Locator.CurrentMutable.RegisterConstant(app.ExceptionViewModel);
-            Locator.CurrentMutable.Register(() => new RoutableViewModelServices());
+            Locator.CurrentMutable.RegisterConstant(app.DapperViewModel);
         }
 
         public static void AddSerialLog()

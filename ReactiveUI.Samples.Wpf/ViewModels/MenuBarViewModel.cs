@@ -1,4 +1,5 @@
-﻿using ReactiveUI.Samples.Wpf.Common;
+﻿using ReactiveUI.Samples.Wpf.Services;
+using Splat;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Runtime.Serialization;
@@ -16,10 +17,11 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
         public MenuBarViewModel(IScreen screen)
         {
             _screen = screen;
+            var rs = Locator.Current.GetService<RoutableViewModelServices>();
             RoutedCommand = ReactiveCommand.CreateFromTask(async () =>
             {
-                if (RoutedPageNames.PageNames.Contains(PageName))
-                    await _screen.Router.Navigate.Execute(RoutedPageNames.PageNameViewModels[PageName].Invoke());
+                if (rs.PageNames.Contains(PageName))
+                    await _screen.Router.Navigate.Execute(rs.GetRouteableViewModel(PageName));
             });
         }
     }

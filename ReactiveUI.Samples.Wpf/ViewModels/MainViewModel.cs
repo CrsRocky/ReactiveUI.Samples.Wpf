@@ -1,5 +1,5 @@
 ﻿using DynamicData;
-using ReactiveUI.Samples.Wpf.Common;
+using ReactiveUI.Samples.Wpf.Services;
 using Splat;
 using System;
 using System.Collections.ObjectModel;
@@ -35,9 +35,15 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
         public MainViewModel()
         {
             MenuSource = new SourceList<MenuBarViewModel>();
-            MenuSource.Add(new MenuBarViewModel(this) { PageName = RoutedPageNames.NavigateViewName });
-            MenuSource.Add(new MenuBarViewModel(this) { PageName = RoutedPageNames.DataContractViewName });
-            MenuSource.Add(new MenuBarViewModel(this) { PageName = RoutedPageNames.ExceptionViewName });
+            Locator.Current.GetService<RoutableViewModelServices>().PageNames
+                .ToObservable()
+                .Subscribe((x) =>
+                {
+                    MenuSource.Add(new MenuBarViewModel(this) 
+                    { 
+                        PageName = x
+                    });
+                });
             MenuSource.Connect()
                 .Bind(out menus)
                 .Subscribe();

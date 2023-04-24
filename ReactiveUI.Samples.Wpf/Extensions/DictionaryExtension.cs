@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ReactiveUI.Samples.Wpf.Common
+namespace ReactiveUI.Samples.Wpf.Extensions
 {
     public static class DictionaryExtension
     {
@@ -14,7 +14,7 @@ namespace ReactiveUI.Samples.Wpf.Common
             }
             else
             {
-                return default(TValue);
+                return default;
             }
         }
 
@@ -28,7 +28,7 @@ namespace ReactiveUI.Samples.Wpf.Common
             }
             else
             {
-                return default(TKey);
+                return default;
             }
         }
     }

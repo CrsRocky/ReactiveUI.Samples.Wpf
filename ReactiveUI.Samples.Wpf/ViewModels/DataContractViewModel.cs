@@ -1,5 +1,5 @@
-﻿using ReactiveUI.Samples.Wpf.Common;
-using ReactiveUI.Samples.Wpf.Models;
+﻿using ReactiveUI.Samples.Wpf.Models;
+using ReactiveUI.Samples.Wpf.Services;
 using Splat;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -17,7 +17,7 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
 
         private readonly ISuspensionDriver driver;
 
-        public string UrlPathSegment => RoutedPageNames.DataContractViewName;
+        public string UrlPathSegment => RoutableViewModelServices.DataContractViewName;
 
         public IScreen HostScreen { get; }
 

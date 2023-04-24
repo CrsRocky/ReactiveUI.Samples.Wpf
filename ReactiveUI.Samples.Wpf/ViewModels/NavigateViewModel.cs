@@ -1,5 +1,4 @@
 ﻿using ReactiveUI.Fody.Helpers;
-using ReactiveUI.Samples.Wpf.Common;
 using ReactiveUI.Samples.Wpf.Services;
 using Splat;
 using System;
@@ -19,7 +18,7 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
 
         public ReactiveCommand<Unit, Unit> NavigateResetCommand { get; }
 
-        public string UrlPathSegment => RoutedPageNames.NavigateViewName;
+        public string UrlPathSegment => RoutableViewModelServices.NavigateViewName;
 
         public IScreen HostScreen { get; }
 
@@ -37,21 +36,19 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
 
             GoNextCommand = ReactiveCommand.CreateFromTask(async () =>
             {
+                var rs = Locator.Current.GetService<RoutableViewModelServices>();
                 if (Router.NavigationStack.Count > 0)
                 {
                     var pageName = Router.GetCurrentViewModel().UrlPathSegment;
-                    var nextPageName = RoutedPageNames.PageNameViewModels.NextKey(pageName);
+                    var nextPageName = rs.GetNextPageName(pageName);
                     if (!string.IsNullOrEmpty(nextPageName))
-                        await Router.Navigate.Execute(Locator.Current.GetService<RoutableViewModelServices>()
-                            .GetRouteableViewModelByName(nextPageName));
-
-                    var LastPageName = RoutedPageNames.PageNameViewModels.Last().Key;
+                        await Router.Navigate.Execute(rs.GetRouteableViewModel(nextPageName));
+                    var LastPageName = rs.PageNames.Last();
                     CanGoNext = LastPageName != nextPageName;
                 }
                 else
                 {
-                    await Router.Navigate.Execute(Locator.Current.GetService<RoutableViewModelServices>()
-                        .GetRouteableViewModelByName(RoutedPageNames.DataContractViewName));
+                    await Router.Navigate.Execute(rs.GetRouteableViewModel(RoutableViewModelServices.DataContractViewName));
                     CanGoNext = true;
                 }
                 this.Log().Info("Navigate Go Next!");
@@ -66,8 +63,8 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
             NavigateResetCommand = ReactiveCommand.CreateFromTask(async () =>
             {
                 // 导航到 NextPage，并重置整个堆栈
-                await Router.NavigateAndReset.Execute(Locator.Current.GetService<RoutableViewModelServices>()
-                        .GetRouteableViewModelByName(RoutedPageNames.DataContractViewName));
+                var rs = Locator.Current.GetService<RoutableViewModelServices>();
+                await Router.NavigateAndReset.Execute(rs.GetRouteableViewModel(RoutableViewModelServices.DataContractViewName));
                 CanGoNext = true;
                 this.Log().Info("Navigate Stack Reset!");
             });

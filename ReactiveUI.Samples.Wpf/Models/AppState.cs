@@ -10,6 +10,7 @@ namespace ReactiveUI.Samples.Wpf.Models
         private NavigateViewModel navigateViewModel;
         private DataContractViewModel dataContractViewModel;
         private ExceptionViewModel exceptionViewModel;
+        private DapperViewModel dapperViewModel;
 
         [DataMember]
         public MainViewModel MainViewModel
@@ -37,6 +38,13 @@ namespace ReactiveUI.Samples.Wpf.Models
         {
             get => exceptionViewModel ??= new ExceptionViewModel();
             set => exceptionViewModel = value;
+        }
+
+        [DataMember]
+        public DapperViewModel DapperViewModel
+        {
+            get => dapperViewModel ??= new DapperViewModel();
+            set => dapperViewModel = value;
         }
     }
 }
