@@ -1,0 +1,33 @@
+﻿<!--<rxui:ReactiveUserControl
+    x:Class="ReactiveUI.Samples.Wpf.Views.MenuView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ReactiveUI.Samples.Wpf.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:rxui="http://reactiveui.net"
+    xmlns:vm="clr-namespace:ReactiveUI.Samples.Wpf.ViewModels"
+    Margin="5"
+    x:TypeArguments="vm:MenuViewModel"
+    mc:Ignorable="d">
+    <Button
+        x:Name="RoutedButton"
+        Width="120"
+        Height="28"
+        Margin="8" />
+</rxui:ReactiveUserControl>-->
+<UserControl
+    x:Class="ReactiveUI.Samples.Wpf.Views.MenuBarView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ReactiveUI.Samples.Wpf.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Margin="5"
+    mc:Ignorable="d">
+    <Button
+        x:Name="RoutedButton"
+        Width="120"
+        Height="28"
+        Margin="8" />
+</UserControl>

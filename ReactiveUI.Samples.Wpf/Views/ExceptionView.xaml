@@ -1,0 +1,44 @@
+﻿<UserControl
+    x:Class="ReactiveUI.Samples.Wpf.Views.ExceptionView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <Grid>
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <Button
+                x:Name="ThrowExButton"
+                Width="120"
+                Height="25"
+                Margin="8"
+                Content="Throw a Exception" />
+            <CheckBox
+                x:Name="IsHandleCheckBox"
+                Margin="8"
+                VerticalAlignment="Center"
+                Content="Is Handle Exception?" />
+            <Button
+                x:Name="ShowMessageButton"
+                Width="120"
+                Height="25"
+                Margin="8"
+                Content="Show Message" />
+            <Button
+                x:Name="ShowDialogButton"
+                Width="120"
+                Height="25"
+                Margin="8"
+                Content="Show Dialog" />
+            <TextBlock
+                x:Name="DialogResultTxb"
+                Margin="8"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" />
+        </StackPanel>
+    </Grid>
+</UserControl>
