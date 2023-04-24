@@ -10,11 +10,12 @@
     {
         public App()
         {
-            AppRegisterService.AddExceptionHandle();//添加异常处理
-            AppRegisterService.AddSerialLog();//添加日志
-            AppRegisterService.AddInteractions();//添加对话框交互
-            AppRegisterService.AddDataPersistence(this);//添加数据持久化
-            AppRegisterService.AddServices();//添加依赖注入
+            this.AddExceptionHandle();//添加异常处理
+            this.AddSerialLog();//添加日志
+            this.AddInteractions();//添加对话框交互
+            this.AddDataPersistence();//添加数据持久化
+            this.AddServices();//添加依赖注入
+            this.AddSqlite();
         }
     }
 }

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ReactiveUI.Samples.Wpf.Services;
+﻿using ReactiveUI.Samples.Wpf.Services;
 using Splat;
+using System;
 
 namespace ReactiveUI.Samples.Wpf.ViewModels
 {

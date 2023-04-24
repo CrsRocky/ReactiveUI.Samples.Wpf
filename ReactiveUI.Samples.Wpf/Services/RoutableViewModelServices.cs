@@ -16,6 +16,7 @@ namespace ReactiveUI.Samples.Wpf.Services
              { ExceptionViewName, () => Locator.Current.GetService(typeof(ExceptionViewModel)) as IRoutableViewModel },
              { DapperViewName, () => Locator.Current.GetService(typeof(DapperViewModel)) as IRoutableViewModel },
         };
+
         public static string NavigateViewName => "NavigatePage";
         public static string DataContractViewName => "DataContractView";
         public static string ExceptionViewName => "ExceptionView";

@@ -39,8 +39,8 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
                 .ToObservable()
                 .Subscribe((x) =>
                 {
-                    MenuSource.Add(new MenuBarViewModel(this) 
-                    { 
+                    MenuSource.Add(new MenuBarViewModel(this)
+                    {
                         PageName = x
                     });
                 });
