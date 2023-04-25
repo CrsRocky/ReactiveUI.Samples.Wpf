@@ -17,7 +17,7 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
         public MenuBarViewModel(IScreen screen)
         {
             _screen = screen;
-            var rs = Locator.Current.GetService<RoutableViewModelServices>();
+            var rs = Locator.Current.GetService<MainRoutableServices>();
             RoutedCommand = ReactiveCommand.CreateFromTask(async () =>
             {
                 if (rs.PageNames.Contains(PageName))

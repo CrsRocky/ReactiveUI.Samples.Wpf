@@ -13,6 +13,7 @@ namespace ReactiveUI.Samples.Wpf.Views
         public MainView()
         {
             InitializeComponent();
+            ViewModel = Locator.Current.GetService(typeof(MainViewModel)) as MainViewModel;
             this.WhenActivated(disposable =>
             {
                 this.OneWayBind(ViewModel,
@@ -30,7 +31,6 @@ namespace ReactiveUI.Samples.Wpf.Views
                     v => v.PagesListBox.ItemsSource)
                     .DisposeWith(disposable);
             });
-            ViewModel = Locator.Current.GetService(typeof(MainViewModel)) as MainViewModel;
         }
 
         public MainViewModel ViewModel

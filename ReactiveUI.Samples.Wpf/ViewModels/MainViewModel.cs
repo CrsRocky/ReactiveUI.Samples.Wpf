@@ -35,7 +35,7 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
         public MainViewModel()
         {
             MenuSource = new SourceList<MenuBarViewModel>();
-            Locator.Current.GetService<RoutableViewModelServices>().PageNames
+            Locator.Current.GetService<MainRoutableServices>().PageNames
                 .ToObservable()
                 .Subscribe((x) =>
                 {

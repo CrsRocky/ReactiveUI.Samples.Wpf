@@ -1,5 +1,5 @@
-﻿using ReactiveUI.Samples.Wpf.Interactions;
-using ReactiveUI.Samples.Wpf.Services;
+﻿using ReactiveUI.Samples.Wpf.Services;
+using ReactiveUI.Samples.Wpf.Services.Interactions;
 using Splat;
 using System;
 using System.Reactive;
@@ -14,10 +14,10 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
     {
         private bool isHandleException;
         private IDisposable exceptionSub;
-        private readonly MessageInteractions messageInteractions;
+        private readonly MessageServices messageInteractions;
         private string dialogResult;
 
-        public string UrlPathSegment => RoutableViewModelServices.ExceptionViewName;
+        public string UrlPathSegment => MainRoutableServices.ExceptionViewName;
 
         public IScreen HostScreen { get; }
 
@@ -43,7 +43,7 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
         public ExceptionViewModel()
         {
             HostScreen = Locator.Current.GetService<MainViewModel>();
-            messageInteractions = Locator.Current.GetService<MessageInteractions>();
+            messageInteractions = Locator.Current.GetService<MessageServices>();
 
             MessageBus.Current.Listen<string>()
                 .ObserveOn(RxApp.MainThreadScheduler)
@@ -73,7 +73,7 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
             {
                 //Interactions.Errors.Handle() returns a cold observable, i.e.
                 //it doesn't actually do anything until you subscribe to it.
-                messageInteractions.ShowMessage.Handle($"{Guid.NewGuid()}").Subscribe();
+                messageInteractions.ShowMessageDialog.Handle($"{Guid.NewGuid()}").Subscribe();
             });
 
             ShowDialogCommand = ReactiveCommand.Create(() =>

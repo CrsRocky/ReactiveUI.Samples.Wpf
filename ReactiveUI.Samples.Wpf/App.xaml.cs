@@ -14,8 +14,8 @@
             this.AddSerialLog();//添加日志
             this.AddInteractions();//添加对话框交互
             this.AddDataPersistence();//添加数据持久化
+            this.AddSqlite();//添加Sqlite
             this.AddServices();//添加依赖注入
-            this.AddSqlite();
         }
     }
 }

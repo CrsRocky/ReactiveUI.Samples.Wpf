@@ -18,7 +18,7 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
 
         public ReactiveCommand<Unit, Unit> NavigateResetCommand { get; }
 
-        public string UrlPathSegment => RoutableViewModelServices.NavigateViewName;
+        public string UrlPathSegment => MainRoutableServices.NavigateViewName;
 
         public IScreen HostScreen { get; }
 
@@ -36,7 +36,7 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
 
             GoNextCommand = ReactiveCommand.CreateFromTask(async () =>
             {
-                var rs = Locator.Current.GetService<RoutableViewModelServices>();
+                var rs = Locator.Current.GetService<MainRoutableServices>();
                 if (Router.NavigationStack.Count > 0)
                 {
                     var pageName = Router.GetCurrentViewModel().UrlPathSegment;
@@ -48,7 +48,7 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
                 }
                 else
                 {
-                    await Router.Navigate.Execute(rs.GetRouteableViewModel(RoutableViewModelServices.DataContractViewName));
+                    await Router.Navigate.Execute(rs.GetRouteableViewModel(MainRoutableServices.DataContractViewName));
                     CanGoNext = true;
                 }
                 this.Log().Info("Navigate Go Next!");
@@ -63,8 +63,8 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
             NavigateResetCommand = ReactiveCommand.CreateFromTask(async () =>
             {
                 // 导航到 NextPage，并重置整个堆栈
-                var rs = Locator.Current.GetService<RoutableViewModelServices>();
-                await Router.NavigateAndReset.Execute(rs.GetRouteableViewModel(RoutableViewModelServices.DataContractViewName));
+                var rs = Locator.Current.GetService<MainRoutableServices>();
+                await Router.NavigateAndReset.Execute(rs.GetRouteableViewModel(MainRoutableServices.DataContractViewName));
                 CanGoNext = true;
                 this.Log().Info("Navigate Stack Reset!");
             });

@@ -1,7 +1,8 @@
 ﻿using ReactiveUI.Samples.Wpf.Extensions;
-using ReactiveUI.Samples.Wpf.Interactions;
 using ReactiveUI.Samples.Wpf.Models;
+using ReactiveUI.Samples.Wpf.Services.Interactions;
 using ReactiveUI.Samples.Wpf.Services.Sqlite;
+using ReactiveUI.Samples.Wpf.ViewModels;
 using Serilog;
 using Splat;
 using Splat.Serilog;
@@ -27,8 +28,9 @@ namespace ReactiveUI.Samples.Wpf.Services
 
         public static void AddServices(this Application app)
         {
-            Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetCallingAssembly());
-            Locator.CurrentMutable.Register(() => new RoutableViewModelServices());
+            Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
+            Locator.CurrentMutable.Register(() => new MainRoutableServices());
+            Locator.CurrentMutable.Register(() => new MessageBoxServices());
 
             var appState = RxApp.SuspensionHost.GetAppState<AppState>();
             if (appState == null)
@@ -42,6 +44,8 @@ namespace ReactiveUI.Samples.Wpf.Services
             Locator.CurrentMutable.RegisterConstant(appState.DataContractViewModel);
             Locator.CurrentMutable.RegisterConstant(appState.ExceptionViewModel);
             Locator.CurrentMutable.RegisterConstant(appState.DapperViewModel);
+
+            Locator.CurrentMutable.Register(() => new MessageBoxBaseViewModel());
         }
 
         public static void AddSerialLog(this Application app)
@@ -75,20 +79,7 @@ namespace ReactiveUI.Samples.Wpf.Services
 
         public static void AddInteractions(this Application app)
         {
-            var interactions = new MessageInteractions();
-            interactions.ShowMessage.RegisterHandler(x =>
-            {
-                MessageBox.Show(x.Input, "ShowMessage");
-                x.SetOutput(Unit.Default);
-            });
-            interactions.ShowDialog.RegisterHandler(x =>
-            {
-                var result = MessageBox.Show(x.Input,
-                    "Confirmation required",
-                    MessageBoxButton.OKCancel,
-                    MessageBoxImage.Question);
-                x.SetOutput(result);
-            });
+            var interactions = new MessageServices();
             Locator.CurrentMutable.RegisterConstant(interactions);
         }
 

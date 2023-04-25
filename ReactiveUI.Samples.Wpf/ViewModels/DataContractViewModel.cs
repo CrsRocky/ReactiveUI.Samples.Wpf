@@ -17,7 +17,7 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
 
         private readonly ISuspensionDriver driver;
 
-        public string UrlPathSegment => RoutableViewModelServices.DataContractViewName;
+        public string UrlPathSegment => MainRoutableServices.DataContractViewName;
 
         public IScreen HostScreen { get; }
 

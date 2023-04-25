@@ -9,8 +9,6 @@ namespace ReactiveUI.Samples.Wpf.Services.Sqlite
 {
     internal interface IDatabaseBootstrap
     {
-        IPeopleServices PeopleServices { get; }
-
         void Build();
     }
 }

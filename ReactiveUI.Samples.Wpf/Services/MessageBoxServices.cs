@@ -4,23 +4,23 @@ using Splat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ReactiveUI.Samples.Wpf.Services
 {
-    public class RoutableViewModelServices
+    public class MessageBoxServices
     {
         private readonly Dictionary<string, Func<IRoutableViewModel>> pageNameViewModels = new()
         {
-             { NavigateViewName, () => Locator.Current.GetService(typeof(NavigateViewModel)) as IRoutableViewModel },
-             { DataContractViewName, () => Locator.Current.GetService(typeof(DataContractViewModel)) as IRoutableViewModel },
-             { ExceptionViewName, () => Locator.Current.GetService(typeof(ExceptionViewModel)) as IRoutableViewModel },
-             { DapperViewName, () => Locator.Current.GetService(typeof(DapperViewModel)) as IRoutableViewModel },
+            {
+                AddPeopleViewName,
+                () => Locator.Current.GetService(typeof(AddPeopleViewModel)) as IRoutableViewModel
+            },
         };
 
-        public static string NavigateViewName => "NavigatePage";
-        public static string DataContractViewName => "DataContractView";
-        public static string ExceptionViewName => "ExceptionView";
-        public static string DapperViewName => "DapperView";
+        public const string AddPeopleViewName = "AddPeopelView";
+
         public List<string> PageNames => pageNameViewModels.Keys.ToList();
 
         public IRoutableViewModel GetRouteableViewModel(string pageName)
