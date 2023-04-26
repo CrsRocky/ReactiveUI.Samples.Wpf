@@ -8,6 +8,7 @@ using Splat;
 using System;
 using System.Collections.ObjectModel;
 using System.Reactive;
+using System.Reactive.Linq;
 using System.Windows.Forms;
 
 namespace ReactiveUI.Samples.Wpf.ViewModels
@@ -46,10 +47,15 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
                 .Bind(out peopleModels)
                 .Subscribe();
 
-            AddButtonCommand = ReactiveCommand.Create(() => 
+            AddButtonCommand = ReactiveCommand.Create(() =>
             {
                 var ms = Locator.Current.GetService<MessageServices>();
-                ms.AddPeopleDialog.Handle(Unit.Default).Subscribe();
+                ms.AddPeopleDialog.Handle(Unit.Default)
+                .Where(x => x != null)
+                .Subscribe(async x =>
+                {
+                    await peopleServices.AddAsync(x);
+                });
             });
 
             SearchAllButtonCommand = ReactiveCommand.CreateFromTask(async () =>

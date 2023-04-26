@@ -3,13 +3,14 @@ using ReactiveUI.Samples.Wpf.Models;
 using ReactiveUI.Samples.Wpf.ViewModels;
 using ReactiveUI.Samples.Wpf.Views;
 using Splat;
+using System;
 using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Windows;
 
 namespace ReactiveUI.Samples.Wpf.Services.Interactions
 {
-    public class MessageServices
+    public class MessageInteractionServices
     {
         public Interaction<string, Unit> ShowMessageDialog { get; private set; }
 
@@ -17,7 +18,7 @@ namespace ReactiveUI.Samples.Wpf.Services.Interactions
 
         public Interaction<Unit, PeopleModel> AddPeopleDialog { get; private set; }
 
-        public MessageServices()
+        public MessageInteractionServices()
         {
             Register();
         }
@@ -40,14 +41,17 @@ namespace ReactiveUI.Samples.Wpf.Services.Interactions
                     MessageBoxImage.Question);
                 x.SetOutput(result);
             });
-            AddPeopleDialog.RegisterHandler(x => 
+            AddPeopleDialog.RegisterHandler(x =>
             {
+                var vm = Locator.Current.GetService<MessageBoxBaseViewModel>();
+                vm.Input.Title = "添加";
+                vm.Input.PageName = MessageBoxServices.AddPeopleViewName;
                 var addView = new MessageBoxBaseView
                 {
-                    Title = MessageBoxServices.AddPeopleViewName
+                    ViewModel = vm
                 };
                 addView.ShowDialog();
-                x.SetOutput(addView.ViewModel.OutputResult as PeopleModel);
+                x.SetOutput(vm.Output.Result as PeopleModel);
             });
         }
     }

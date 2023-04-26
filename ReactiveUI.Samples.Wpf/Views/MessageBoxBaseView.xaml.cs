@@ -1,4 +1,6 @@
-﻿using ReactiveUI.Samples.Wpf.ViewModels;
+﻿using ReactiveUI.Samples.Wpf.Models;
+using ReactiveUI.Samples.Wpf.Services;
+using ReactiveUI.Samples.Wpf.ViewModels;
 using Splat;
 using System;
 using System.Collections.Generic;
@@ -26,21 +28,11 @@ namespace ReactiveUI.Samples.Wpf.Views
         public MessageBoxBaseView()
         {
             InitializeComponent();
-            this.WhenActivated(d => 
+            this.WhenActivated(d =>
             {
-                this.Bind(ViewModel, 
-                    vm => vm.Title, 
+                this.Bind(ViewModel,
+                    vm => vm.Title,
                     v => v.Title)
-                    .DisposeWith(d);
-
-                this.BindCommand(ViewModel, 
-                    vm => vm.OkCommand, 
-                    v => v.OkButton)
-                    .DisposeWith(d);
-
-                this.BindCommand(ViewModel, 
-                    vm => vm.CancelCommand,
-                    v => v.CancelButton)
                     .DisposeWith(d);
 
                 this.Bind(ViewModel,
@@ -49,11 +41,10 @@ namespace ReactiveUI.Samples.Wpf.Views
                     .DisposeWith(d);
 
                 this.WhenAnyValue(v => v.ViewModel.DialogResult)
-                    .Where(x => x == "OK" || x == "Cancel")
-                    .Subscribe(x => this.Close())
+                    .Where(x => x == "complete")
+                    .Subscribe(x => Close())
                     .DisposeWith(d);
             });
-            ViewModel = Locator.Current.GetService<MessageBoxBaseViewModel>();
         }
 
         public static readonly DependencyProperty ViewModelProperty =

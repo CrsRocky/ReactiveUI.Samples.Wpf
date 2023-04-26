@@ -7,10 +7,18 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:rxui="http://reactiveui.net"
     Title="AddPeopleView"
-    Width="800"
-    Height="450"
+    Width="350"
+    Height="300"
+    AllowsTransparency="True"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
     mc:Ignorable="d">
-    <Grid>
+    <rxui:RoutedViewHost
+        x:Name="DialogViewHost"
+        Grid.Row="0"
+        HorizontalContentAlignment="Stretch"
+        VerticalContentAlignment="Stretch" />
+    <!--<Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="auto" />
@@ -36,5 +44,5 @@
                 Margin="16"
                 Content="Cancel" />
         </WrapPanel>
-    </Grid>
+    </Grid>-->
 </Window>

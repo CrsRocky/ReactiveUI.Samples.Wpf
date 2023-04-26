@@ -14,7 +14,7 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
     {
         private bool isHandleException;
         private IDisposable exceptionSub;
-        private readonly MessageServices messageInteractions;
+        private readonly MessageInteractionServices messageInteractions;
         private string dialogResult;
 
         public string UrlPathSegment => MainRoutableServices.ExceptionViewName;
@@ -43,7 +43,7 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
         public ExceptionViewModel()
         {
             HostScreen = Locator.Current.GetService<MainViewModel>();
-            messageInteractions = Locator.Current.GetService<MessageServices>();
+            messageInteractions = Locator.Current.GetService<MessageInteractionServices>();
 
             MessageBus.Current.Listen<string>()
                 .ObserveOn(RxApp.MainThreadScheduler)

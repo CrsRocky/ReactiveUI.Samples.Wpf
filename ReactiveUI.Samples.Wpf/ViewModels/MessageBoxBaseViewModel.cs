@@ -1,20 +1,25 @@
-﻿using ReactiveUI;
+﻿using AutoMapper;
+using ReactiveUI;
+using ReactiveUI.Samples.Wpf.Dtos;
+using ReactiveUI.Samples.Wpf.Models;
 using ReactiveUI.Samples.Wpf.Services;
 using Splat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Windows.Input;
+using System.Xml.Linq;
 
 namespace ReactiveUI.Samples.Wpf.ViewModels
 {
     public class MessageBoxBaseViewModel : ReactiveObject, IScreen, IEnableLogger
     {
-        private string title;
+        private string dialogResult = string.Empty;
+        private string title = string.Empty;
 
         public string Title
         {
@@ -22,52 +27,42 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
             set => this.RaiseAndSetIfChanged(ref title, value);
         }
 
-        private string dialogResult;
         public string DialogResult
         {
             get => dialogResult;
             set => this.RaiseAndSetIfChanged(ref dialogResult, value);
         }
 
-
         public RoutingState Router { get; }
 
-        public ReactiveCommand<Unit, Unit> OkCommand { get; }
+        public MessageBoxInputModel Input { get; } = new();
 
-        public ReactiveCommand<Unit, Unit> CancelCommand { get; }
-
-        public object OutputResult { get; private set; } = new ();
+        public MessageBoxOutputModel Output { get; } = new();
 
         public MessageBoxBaseViewModel()
         {
             Router = new RoutingState();
-            OkCommand = ReactiveCommand.Create(() => 
-            {
-                DialogResult = "Ok";
-            });
-            CancelCommand = ReactiveCommand.Create(() => 
-            {
-                DialogResult = "Cancel";
-            });
-            Naviagation();
+
+            this.WhenAnyValue(x => x.Input.Title)
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .Subscribe(x => Title = x);
+
+            this.WhenAnyValue(x => x.Input.PageName)
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .Subscribe(x => Naviagation(x));
         }
 
-        void Naviagation()
+        void Naviagation(string name)
         {
             var ms = Locator.Current.GetService<MessageBoxServices>();
-            switch (Title)
+            switch (name)
             {
                 case MessageBoxServices.AddPeopleViewName:
                     Router.Navigate.Execute(ms.GetRouteableViewModel(MessageBoxServices.AddPeopleViewName));
                     break;
             }
-
-            //RoutedCommand = ReactiveCommand.CreateFromTask(async () =>
-            //{
-            //    if (rs.PageNames.Contains(PageName))
-            //        await _screen.Router.Navigate.Execute(rs.GetRouteableViewModel(PageName));
-            //});
         }
-
     }
 }

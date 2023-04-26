@@ -1,4 +1,6 @@
-﻿using ReactiveUI.Samples.Wpf.Extensions;
+﻿using AutoMapper;
+using Microsoft.VisualBasic;
+using ReactiveUI.Samples.Wpf.Extensions;
 using ReactiveUI.Samples.Wpf.Models;
 using ReactiveUI.Samples.Wpf.Services.Interactions;
 using ReactiveUI.Samples.Wpf.Services.Sqlite;
@@ -6,6 +8,7 @@ using ReactiveUI.Samples.Wpf.ViewModels;
 using Serilog;
 using Splat;
 using Splat.Serilog;
+using System;
 using System.Reactive;
 using System.Reflection;
 using System.Windows;
@@ -45,7 +48,8 @@ namespace ReactiveUI.Samples.Wpf.Services
             Locator.CurrentMutable.RegisterConstant(appState.ExceptionViewModel);
             Locator.CurrentMutable.RegisterConstant(appState.DapperViewModel);
 
-            Locator.CurrentMutable.Register(() => new MessageBoxBaseViewModel());
+            Locator.CurrentMutable.RegisterLazySingleton(() => new MessageBoxBaseViewModel());
+            Locator.CurrentMutable.Register(() => new AddPeopleViewModel());
         }
 
         public static void AddSerialLog(this Application app)
@@ -88,6 +92,16 @@ namespace ReactiveUI.Samples.Wpf.Services
             var boot = new DatabaseBootstrap();
             boot.Build();
             Locator.CurrentMutable.RegisterConstant<IDatabaseBootstrap>(boot);
+        }
+
+        public static void AddMapper(this Application app)
+        {
+            var configuration = new MapperConfiguration(configure =>
+            {
+                //var assem = AppDomain.CurrentDomain.GetAssemblies();
+                configure.AddMaps(Assembly.GetExecutingAssembly());
+            });
+            Locator.CurrentMutable.RegisterConstant(configuration.CreateMapper());
         }
     }
 }
