@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.VisualBasic;
 using ReactiveUI.Samples.Wpf.Extensions;
 using ReactiveUI.Samples.Wpf.Models;
 using ReactiveUI.Samples.Wpf.Services.Interactions;
@@ -9,7 +8,6 @@ using Serilog;
 using Splat;
 using Splat.Serilog;
 using System;
-using System.Reactive;
 using System.Reflection;
 using System.Windows;
 
@@ -49,7 +47,7 @@ namespace ReactiveUI.Samples.Wpf.Services
             Locator.CurrentMutable.RegisterConstant(appState.DapperViewModel);
 
             Locator.CurrentMutable.RegisterLazySingleton(() => new MessageBoxBaseViewModel());
-            Locator.CurrentMutable.Register(() => new AddPeopleViewModel());
+            Locator.CurrentMutable.Register(() => new PeopleViewModel());
         }
 
         public static void AddSerialLog(this Application app)
@@ -83,7 +81,7 @@ namespace ReactiveUI.Samples.Wpf.Services
 
         public static void AddInteractions(this Application app)
         {
-            var interactions = new MessageServices();
+            var interactions = new MessageInteractionServices();
             Locator.CurrentMutable.RegisterConstant(interactions);
         }
 

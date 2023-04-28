@@ -14,9 +14,9 @@ namespace ReactiveUI.Samples.Wpf.Views
         public DapperView()
         {
             InitializeComponent();
-            this.WhenActivated(d => 
+            this.WhenActivated(d =>
             {
-                this.BindCommand(ViewModel, 
+                this.BindCommand(ViewModel,
                     vm => vm.AddButtonCommand,
                     v => v.AddButton)
                     .DisposeWith(d);
@@ -33,8 +33,7 @@ namespace ReactiveUI.Samples.Wpf.Views
 
                 this.BindCommand(ViewModel,
                     vm => vm.SearchByIdButtonCommand,
-                    v => v.SearchByIdButton,
-                    Observable.Return(IdTextBox.Text))
+                    v => v.SearchByIdButton)
                     .DisposeWith(d);
 
                 this.BindCommand(ViewModel,
@@ -45,6 +44,16 @@ namespace ReactiveUI.Samples.Wpf.Views
                 this.OneWayBind(ViewModel,
                     vm => vm.PeopleModels,
                     v => v.DetailsDataGrid.ItemsSource)
+                    .DisposeWith(d);
+
+                //one way to source
+                this.WhenAnyValue(v => v.DetailsDataGrid.SelectedItem)
+                    .Where(x => x != null)
+                    .BindTo(this, v => v.ViewModel.SelectPeople)
+                    .DisposeWith(d);
+
+                this.WhenAnyValue(v => v.IdTextBox.Text)
+                    .BindTo(this, v => v.ViewModel.SearchId)
                     .DisposeWith(d);
             });
         }

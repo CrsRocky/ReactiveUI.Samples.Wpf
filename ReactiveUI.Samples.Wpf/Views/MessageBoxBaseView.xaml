@@ -9,9 +9,8 @@
     Title="AddPeopleView"
     Width="350"
     Height="300"
-    AllowsTransparency="True"
     WindowStartupLocation="CenterScreen"
-    WindowStyle="None"
+    WindowStyle="SingleBorderWindow"
     mc:Ignorable="d">
     <rxui:RoutedViewHost
         x:Name="DialogViewHost"

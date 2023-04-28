@@ -3,16 +3,11 @@ using ReactiveUI.Samples.Wpf.Dtos;
 using ReactiveUI.Samples.Wpf.Models;
 using Splat;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reactive;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace ReactiveUI.Samples.Wpf.ViewModels
 {
-    public class AddPeopleViewModel : ReactiveObject, IRoutableViewModel
+    public class PeopleViewModel : ReactiveObject, IRoutableViewModel
     {
         private PeopleDto people = new();
 
@@ -21,7 +16,6 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
         public string UrlPathSegment => "AddPeopleView";
 
         public IScreen HostScreen { get; }
-
 
         public ReactiveCommand<Unit, Unit> OkCommand { get; internal set; }
 
@@ -33,12 +27,23 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
             set => this.RaiseAndSetIfChanged(ref people, value);
         }
 
-        public AddPeopleViewModel()
+        public PeopleViewModel()
         {
+            mapper = Locator.Current.GetService<IMapper>();
             var host = Locator.Current.GetService<MessageBoxBaseViewModel>();
             HostScreen = host;
-            mapper = Locator.Current.GetService<IMapper>();
-            var canExecute = this.WhenAnyValue(x => x.People.Name,
+            if (host.Input.Parameter is PeopleModel model)
+                People = mapper.Map<PeopleDto>(model);
+
+            OkCommand = ReactiveCommand.Create(() =>
+            {
+                var peopleModel = mapper.Map<PeopleModel>(People);
+                if (host.Input.Parameter is PeopleModel model)
+                    peopleModel.Id = model.Id;
+                host.Output.Result = peopleModel;
+                host.Output.DialogResult = "confirm";
+            }, 
+            this.WhenAnyValue(x => x.People.Name,
                 x => x.People.Age,
                 x => x.People.Sex,
                 x => x.People.Phone,
@@ -46,14 +51,13 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
                 !string.IsNullOrEmpty(name) &&
                 !string.IsNullOrEmpty(age.ToString()) &&
                 !string.IsNullOrEmpty(sex) &&
-                !string.IsNullOrEmpty(phone));
-            OkCommand = ReactiveCommand.Create(() =>
+                !string.IsNullOrEmpty(phone)));
+
+            CancelCommand = ReactiveCommand.Create(() =>
             {
-                host.Output.Result = mapper.Map<PeopleModel>(People);
-                host.DialogResult = "complete";
-            }, canExecute);
-            CancelCommand = ReactiveCommand.Create(() => {
-                host.DialogResult = "complete"; });
+                host.Output.Result = null;
+                host.Output.DialogResult = "cancel";
+            });
         }
     }
 }

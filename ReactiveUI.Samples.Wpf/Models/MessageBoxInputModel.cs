@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ReactiveUI.Samples.Wpf.Models
+﻿namespace ReactiveUI.Samples.Wpf.Models
 {
     public class MessageBoxInputModel : ReactiveObject
     {
         private string title = string.Empty;
         private string pageName = string.Empty;
+        private object parameter = new();
 
         public string Title
         {
@@ -21,6 +16,12 @@ namespace ReactiveUI.Samples.Wpf.Models
         {
             get => pageName;
             set => this.RaiseAndSetIfChanged(ref pageName, value);
+        }
+
+        public object Parameter
+        {
+            get => parameter;
+            set => this.RaiseAndSetIfChanged(ref parameter, value);
         }
     }
 }

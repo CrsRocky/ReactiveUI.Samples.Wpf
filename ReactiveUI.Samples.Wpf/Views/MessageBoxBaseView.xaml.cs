@@ -1,22 +1,11 @@
-﻿using ReactiveUI.Samples.Wpf.Models;
-using ReactiveUI.Samples.Wpf.Services;
-using ReactiveUI.Samples.Wpf.ViewModels;
-using Splat;
+﻿using ReactiveUI.Samples.Wpf.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using ReactiveUI;
 
 namespace ReactiveUI.Samples.Wpf.Views
 {
@@ -31,7 +20,7 @@ namespace ReactiveUI.Samples.Wpf.Views
             this.WhenActivated(d =>
             {
                 this.Bind(ViewModel,
-                    vm => vm.Title,
+                    vm => vm.Input.Title,
                     v => v.Title)
                     .DisposeWith(d);
 
@@ -40,9 +29,17 @@ namespace ReactiveUI.Samples.Wpf.Views
                     v => v.DialogViewHost.Router)
                     .DisposeWith(d);
 
-                this.WhenAnyValue(v => v.ViewModel.DialogResult)
-                    .Where(x => x == "complete")
+                // Subscribe to Cancel, and close the Window when it happens
+                //this.WhenAnyObservable(x => x.ViewModel.Cancel)
+                //    .Subscribe(_ => this.Close());
+
+                this.WhenAnyValue(v => v.ViewModel.Output.DialogResult)
+                    .Where(x => x == "confirm" || x == "cancel")
                     .Subscribe(x => Close())
+                    .DisposeWith(d);
+
+                this.Events().Closed
+                    .Subscribe(x => ViewModel.Reset())
                     .DisposeWith(d);
             });
         }

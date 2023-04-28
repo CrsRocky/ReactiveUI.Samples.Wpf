@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ReactiveUI.Samples.Wpf.Models
+﻿namespace ReactiveUI.Samples.Wpf.Models
 {
-    public class MessageBoxOutputModel
+    public class MessageBoxOutputModel : ReactiveObject
     {
+        private string dialogResult = string.Empty;
+
         public object Result { get; set; }
+
+        public string DialogResult
+        {
+            get => dialogResult;
+            set => this.RaiseAndSetIfChanged(ref dialogResult, value);
+        }
     }
 }

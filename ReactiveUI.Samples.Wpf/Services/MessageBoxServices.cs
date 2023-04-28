@@ -4,8 +4,6 @@ using Splat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ReactiveUI.Samples.Wpf.Services
 {
@@ -15,11 +13,18 @@ namespace ReactiveUI.Samples.Wpf.Services
         {
             {
                 AddPeopleViewName,
-                () => Locator.Current.GetService(typeof(AddPeopleViewModel)) as IRoutableViewModel
+                () => Locator.Current.GetService(typeof(PeopleViewModel)) as IRoutableViewModel
+            },
+            {
+                UpdatePeopleViewName,
+                () => Locator.Current.GetService(typeof(PeopleViewModel)) as IRoutableViewModel
             },
         };
 
         public const string AddPeopleViewName = "AddPeopelView";
+
+        public const string UpdatePeopleViewName = "UpdatePeopleView";
+
 
         public List<string> PageNames => pageNameViewModels.Keys.ToList();
 

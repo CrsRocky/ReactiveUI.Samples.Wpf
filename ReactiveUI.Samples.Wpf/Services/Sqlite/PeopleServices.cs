@@ -1,13 +1,7 @@
 ﻿using Dapper;
-using Microsoft.Data.Sqlite;
 using ReactiveUI.Samples.Wpf.Extensions;
 using ReactiveUI.Samples.Wpf.Models;
-using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ReactiveUI.Samples.Wpf.Services.Sqlite
@@ -25,19 +19,20 @@ namespace ReactiveUI.Samples.Wpf.Services.Sqlite
         public async Task<IEnumerable<PeopleModel>> GetAllAsync()
         {
             using var connector = ConnectionFactory.CreateSqlConnection();
-            return await connector.QueryAsync<PeopleModel>("select * from People");
+            return await connector.QueryAsync<PeopleModel>(@"select * from People");
         }
 
         public async Task<int> RemoveAsync(int id)
         {
             using var connector = ConnectionFactory.CreateSqlConnection();
-            return await connector.ExecuteAsync($"delete from People where ID={id}");
+            return await connector.ExecuteAsync($@"delete from People where ID={id}");
         }
 
         public async Task<PeopleModel> SearchAsync(int id)
         {
             using var connector = ConnectionFactory.CreateSqlConnection();
-            return await connector.QueryFirstOrDefaultAsync<PeopleModel>(@"select * from table where Id =@Id", id);
+            return await connector.QueryFirstOrDefaultAsync<PeopleModel>($@"select * from People where Id=@Id",
+                                                                                new { Id = id });
         }
 
         public async Task<int> UpDateAsync(PeopleModel model)
@@ -46,7 +41,7 @@ namespace ReactiveUI.Samples.Wpf.Services.Sqlite
             var update = @"update People set Name = @Name,
                                             Age = @Age,
                                             Sex = @Sex,
-                                            Phone = @Phone 
+                                            Phone = @Phone
                                             where Id=@Id";
             return await connector.ExecuteAsync(update, model);
         }

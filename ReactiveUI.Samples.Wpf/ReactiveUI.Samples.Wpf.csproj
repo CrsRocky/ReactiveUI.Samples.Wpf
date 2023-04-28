@@ -13,6 +13,7 @@
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.5" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="ReactiveUI.Events.WPF" Version="15.1.1" />
     <PackageReference Include="ReactiveUI.Fody" Version="18.4.34" />
     <PackageReference Include="ReactiveUI.WPF" Version="18.4.34" />
     <PackageReference Include="Serilog.Expressions" Version="3.4.1" />
