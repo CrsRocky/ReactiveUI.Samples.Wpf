@@ -3,6 +3,10 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using ReactiveUI.Samples.Wpf.Extensions;
+using System;
+using System.Reactive.Subjects;
+using System.Net;
 
 namespace ReactiveUI.Samples.Wpf.Views
 {
@@ -24,11 +28,6 @@ namespace ReactiveUI.Samples.Wpf.Views
                 this.Bind(ViewModel,
                     vm => vm.Name,
                     v => v.NameTextBox.Text)
-                    .DisposeWith(disposable);
-
-                this.Bind(ViewModel,
-                    vm => vm.Password,
-                    v => v.PasswordTextBox.Text)
                     .DisposeWith(disposable);
 
                 this.BindCommand(ViewModel,
@@ -53,10 +52,6 @@ namespace ReactiveUI.Samples.Wpf.Views
                     v => v.InvalidateStateButton,
                     Observable.Return(InvalidateStateButton.Content.ToString()))
                     .DisposeWith(disposable);
-
-                //this.WhenAny(x => x.ViewModel.Password, x => x.Value)
-                //    .Subscribe(x => PasswordBox.SetValue(PasswordExtension.PasswordProperty, x))
-                //    .DisposeWith(disposable);
             });
         }
 

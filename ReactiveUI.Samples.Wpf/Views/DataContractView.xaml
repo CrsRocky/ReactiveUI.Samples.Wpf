@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="clr-namespace:ReactiveUI.Samples.Wpf.Extensions"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -45,17 +46,20 @@
                 <TextBlock
                     Margin="5"
                     Text="Password：" />
-                <TextBox
+                <!--<TextBox
                     x:Name="PasswordTextBox"
                     Width="120"
-                    Margin="5" />
+                    Margin="5" />-->
 
-                <!--<PasswordBox
+                <PasswordBox
                     x:Name="PasswordBox"
                     Width="120"
                     Margin="5"
-                    ext:PasswordExtension.Attach="True"
-                    PasswordChar="*" />-->
+                    ext:PassWordExtensions.PassWord="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <i:Interaction.Behaviors>
+                        <ext:PasswordBehavior />
+                    </i:Interaction.Behaviors>
+                </PasswordBox>
             </WrapPanel>
 
             <Button

@@ -1,97 +1,55 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using Microsoft.Xaml.Behaviors;
 
 namespace ReactiveUI.Samples.Wpf.Extensions
 {
-    internal class PasswordExtension
+    public class PassWordExtensions
     {
-        public static readonly DependencyProperty PasswordProperty = DependencyProperty.RegisterAttached(
-           "Password",
-           typeof(string),
-           typeof(PasswordExtension),
-           new PropertyMetadata(string.Empty, OnPasswordPropertyChanged));
-
-        private static void OnPasswordPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public static string GetPassWord(DependencyObject obj)
         {
-            PasswordBox passwordBox = d as PasswordBox;
-            passwordBox.PasswordChanged -= PasswordChanged;
-            if (!GetIsUpdating(passwordBox))
-            {
-                /*从Password往控件方向更新绑定值*/
-                passwordBox.Password = e.NewValue.ToString();
-            }
-
-            passwordBox.PasswordChanged += PasswordChanged;
+            return (string)obj.GetValue(PassWordProperty);
         }
 
-        public static void SetPassword(DependencyObject element, string value)
+        public static void SetPassWord(DependencyObject obj, string value)
         {
-            element.SetValue(PasswordProperty, value);
+            obj.SetValue(PassWordProperty, value);
         }
 
-        public static string GetPassword(DependencyObject element)
+        public static readonly DependencyProperty PassWordProperty =
+            DependencyProperty.RegisterAttached("PassWord", typeof(string), typeof(PassWordExtensions), new FrameworkPropertyMetadata(string.Empty, OnPassWordPropertyChanged));
+
+        static void OnPassWordPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            return (string)element.GetValue(PasswordProperty);
+            var passWord = sender as PasswordBox;
+            string password = (string)e.NewValue;
+
+            if (passWord != null && passWord.Password != password)
+                passWord.Password = password;
+        }
+    }
+
+    public class PasswordBehavior : Behavior<PasswordBox>
+    {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            AssociatedObject.PasswordChanged += AssociatedObject_PasswordChanged;
         }
 
-        public static readonly DependencyProperty AttachProperty = DependencyProperty.RegisterAttached(
-            "Attach",
-            typeof(bool),
-            typeof(PasswordExtension),
-            new PropertyMetadata(false, Attach));
-
-        private static void Attach(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (!(d is PasswordBox passwordBox))
-            {
-                return;
-            }
-
-            if ((bool)e.OldValue)
-            {
-                passwordBox.PasswordChanged -= PasswordChanged;
-            }
-
-            if ((bool)e.NewValue)
-            {
-                /*当控件的值发生变化的时候，更新Password的值*/
-                passwordBox.PasswordChanged += PasswordChanged;
-            }
-        }
-
-        private static void PasswordChanged(object sender, RoutedEventArgs e)
+        private void AssociatedObject_PasswordChanged(object sender, RoutedEventArgs e)
         {
             PasswordBox passwordBox = sender as PasswordBox;
-            /*IsUpdating的作用类似一把互斥锁,因涉及到双向绑定更新*/
-            SetIsUpdating(passwordBox, true);
-            SetPassword(passwordBox, passwordBox.Password);
-            SetIsUpdating(passwordBox, false);
+            string password = PassWordExtensions.GetPassWord(passwordBox);
+
+            if (passwordBox != null && passwordBox.Password != password)
+                PassWordExtensions.SetPassWord(passwordBox, passwordBox.Password);
         }
 
-        public static void SetAttach(DependencyObject element, bool value)
+        protected override void OnDetaching()
         {
-            element.SetValue(AttachProperty, value);
-        }
-
-        public static bool GetAttach(DependencyObject element)
-        {
-            return (bool)element.GetValue(AttachProperty);
-        }
-
-        public static readonly DependencyProperty IsUpdatingProperty = DependencyProperty.RegisterAttached(
-            "IsUpdating",
-            typeof(bool),
-            typeof(PasswordExtension),
-            new PropertyMetadata(default(bool)));
-
-        public static void SetIsUpdating(DependencyObject element, bool value)
-        {
-            element.SetValue(IsUpdatingProperty, value);
-        }
-
-        public static bool GetIsUpdating(DependencyObject element)
-        {
-            return (bool)element.GetValue(IsUpdatingProperty);
+            base.OnDetaching();
+            AssociatedObject.PasswordChanged -= AssociatedObject_PasswordChanged;
         }
     }
 }

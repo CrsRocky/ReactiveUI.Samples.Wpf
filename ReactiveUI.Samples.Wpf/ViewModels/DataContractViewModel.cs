@@ -11,9 +11,9 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
     [DataContract]
     public class DataContractViewModel : ReactiveObject, IRoutableViewModel
     {
-        private string name;
+        private string name = string.Empty;
 
-        private string password;
+        private string password = string.Empty;
 
         private readonly ISuspensionDriver driver;
 
@@ -54,7 +54,8 @@ namespace ReactiveUI.Samples.Wpf.ViewModels
             LoginCommand = ReactiveCommand.CreateFromTask(() => Task.Delay(1000),
                 this.WhenAnyValue(x => x.Name,
                         x => x.Password,
-                        (n, p) => !string.IsNullOrWhiteSpace(n) && !string.IsNullOrWhiteSpace(p)));
+                        (n, p) => 
+                        !string.IsNullOrWhiteSpace(n) && !string.IsNullOrWhiteSpace(p)));
 
             AppStateCommand = ReactiveCommand.CreateFromTask<string>(async x =>
             {
